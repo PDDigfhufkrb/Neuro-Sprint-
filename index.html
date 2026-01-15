@@ -1,99 +1,645 @@
 <!DOCTYPE html>
 <html lang="ru">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Оплатить выпуск #1 | NeuroSprint</title>
-  <link rel="stylesheet" href="https://yookassa.ru/integration/simplepay/css/yookassa_construct_form.css?v=1.30.0">
-  <style>
-    body {
-      background: #0F0F14;
-      margin: 0;
-      padding: 60px 20px;
-      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-      color: white;
-      text-align: center;
-    }
-    .container {
-      max-width: 500px;
-      margin: 0 auto;
-      background: #1A1A1F;
-      padding: 30px;
-      border-radius: 12px;
-      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
-    }
-    h1 {
-      font-size: 24px;
-      margin-bottom: 16px;
-      font-weight: 500;
-    }
-    p {
-      color: #aaa;
-      margin-bottom: 30px;
-      font-size: 15px;
-    }
-    .ym-customer-info input {
-      width: 100%;
-      padding: 14px;
-      border-radius: 8px;
-      border: 1px solid #333;
-      background: #2A2A2F;
-      color: white;
-      font-size: 16px;
-    }
-    .ym-payment-btn-block {
-      margin-top: 20px;
-    }
-  </style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>NeuroSprint — ИИ без истерик</title>
+    
+    <!-- Аналитика (оставлю пустые места как в ПДД проекте) -->
+    
+    <!-- Стили -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600;700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    
+    <style>
+        :root {
+            --neon-green: #00ff88;
+            --neon-blue: #0088ff;
+            --neon-pink: #ff0088;
+            --dark-bg: #0a0a0f;
+            --darker-bg: #050508;
+            --card-bg: #111118;
+            --text-primary: #ffffff;
+            --text-secondary: #a0a0c0;
+            --border-color: #222233;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: var(--dark-bg);
+            color: var(--text-primary);
+            line-height: 1.6;
+            overflow-x: hidden;
+            min-height: 100vh;
+        }
+        
+        code, .mono {
+            font-family: 'JetBrains Mono', monospace;
+        }
+        
+        /* Навигация */
+        .navbar {
+            background: rgba(10, 10, 15, 0.95);
+            backdrop-filter: blur(10px);
+            border-bottom: 1px solid var(--border-color);
+            padding: 1.2rem 0;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+        }
+        
+        .nav-brand {
+            font-family: 'JetBrains Mono', monospace;
+            font-weight: 700;
+            font-size: 1.4rem;
+            color: var(--neon-green);
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        
+        .nav-brand .pulse {
+            width: 8px;
+            height: 8px;
+            background: var(--neon-green);
+            border-radius: 50%;
+            animation: pulse 2s infinite;
+        }
+        
+        @keyframes pulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.5; }
+        }
+        
+        /* Герой секция */
+        .hero {
+            padding: 8rem 0 6rem;
+            position: relative;
+            overflow: hidden;
+            background: linear-gradient(135deg, var(--darker-bg) 0%, var(--dark-bg) 100%);
+        }
+        
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            right: -50%;
+            bottom: -50%;
+            background: 
+                radial-gradient(circle at 20% 80%, rgba(0, 255, 136, 0.05) 0%, transparent 50%),
+                radial-gradient(circle at 80% 20%, rgba(0, 136, 255, 0.05) 0%, transparent 50%);
+            animation: rotate 20s linear infinite;
+        }
+        
+        @keyframes rotate {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(360deg); }
+        }
+        
+        .hero-content {
+            position: relative;
+            z-index: 2;
+        }
+        
+        .hero-title {
+            font-size: 3.5rem;
+            font-weight: 800;
+            line-height: 1.1;
+            margin-bottom: 1.5rem;
+            font-family: 'JetBrains Mono', monospace;
+        }
+        
+        .gradient-text {
+            background: linear-gradient(90deg, var(--neon-green), var(--neon-blue));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        
+        .hero-subtitle {
+            font-size: 1.25rem;
+            color: var(--text-secondary);
+            max-width: 600px;
+            margin-bottom: 2.5rem;
+        }
+        
+        .cta-buttons {
+            display: flex;
+            gap: 1rem;
+            flex-wrap: wrap;
+        }
+        
+        .btn-primary {
+            background: linear-gradient(90deg, var(--neon-green), var(--neon-blue));
+            color: black;
+            border: none;
+            padding: 0.8rem 2rem;
+            border-radius: 8px;
+            font-weight: 600;
+            font-size: 1rem;
+            text-decoration: none;
+            display: inline-block;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+        
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 30px rgba(0, 255, 136, 0.3);
+            color: black;
+        }
+        
+        .btn-secondary {
+            background: transparent;
+            color: var(--neon-pink);
+            border: 1px solid var(--neon-pink);
+            padding: 0.8rem 2rem;
+            border-radius: 8px;
+            font-weight: 600;
+            font-size: 1rem;
+            text-decoration: none;
+            display: inline-block;
+            transition: all 0.3s ease;
+        }
+        
+        .btn-secondary:hover {
+            background: rgba(255, 0, 136, 0.1);
+            color: var(--neon-pink);
+            transform: translateY(-2px);
+        }
+        
+        /* Секция курса */
+        .course-section {
+            padding: 5rem 0;
+            background: var(--darker-bg);
+            border-top: 1px solid var(--border-color);
+            border-bottom: 1px solid var(--border-color);
+        }
+        
+        .course-card {
+            background: var(--card-bg);
+            border-radius: 16px;
+            padding: 2.5rem;
+            border: 1px solid var(--border-color);
+            transition: all 0.4s ease;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .course-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 3px;
+            background: linear-gradient(90deg, var(--neon-green), var(--neon-blue));
+        }
+        
+        .course-card:hover {
+            transform: translateY(-5px);
+            border-color: var(--neon-green);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
+        }
+        
+        .course-badge {
+            background: rgba(0, 255, 136, 0.1);
+            color: var(--neon-green);
+            padding: 0.3rem 0.8rem;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: 600;
+            display: inline-block;
+            margin-bottom: 1rem;
+        }
+        
+        .course-title {
+            font-size: 2rem;
+            font-weight: 700;
+            margin-bottom: 1rem;
+            font-family: 'JetBrains Mono', monospace;
+        }
+        
+        .course-price {
+            font-size: 2.5rem;
+            font-weight: 800;
+            color: var(--neon-green);
+            margin: 1.5rem 0;
+        }
+        
+        .course-price small {
+            font-size: 1rem;
+            color: var(--text-secondary);
+            font-weight: 400;
+        }
+        
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1.5rem;
+            margin: 2rem 0;
+        }
+        
+        .feature-item {
+            display: flex;
+            align-items: flex-start;
+            gap: 1rem;
+        }
+        
+        .feature-icon {
+            color: var(--neon-blue);
+            font-size: 1.2rem;
+            margin-top: 0.2rem;
+        }
+        
+        .feature-text {
+            color: var(--text-secondary);
+        }
+        
+        /* Секция блога */
+        .blog-section {
+            padding: 5rem 0;
+        }
+        
+        .section-title {
+            font-size: 2.5rem;
+            font-weight: 800;
+            margin-bottom: 3rem;
+            font-family: 'JetBrains Mono', monospace;
+            text-align: center;
+        }
+        
+        .articles-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+        }
+        
+        .article-card {
+            background: var(--card-bg);
+            border-radius: 12px;
+            overflow: hidden;
+            border: 1px solid var(--border-color);
+            transition: all 0.3s ease;
+        }
+        
+        .article-card:hover {
+            transform: translateY(-5px);
+            border-color: var(--neon-blue);
+        }
+        
+        .article-image {
+            height: 180px;
+            background: linear-gradient(135deg, rgba(0, 255, 136, 0.1), rgba(0, 136, 255, 0.1));
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2rem;
+            color: var(--neon-green);
+        }
+        
+        .article-content {
+            padding: 1.5rem;
+        }
+        
+        .article-title {
+            font-size: 1.3rem;
+            font-weight: 700;
+            margin-bottom: 0.8rem;
+            color: var(--text-primary);
+        }
+        
+        .article-excerpt {
+            color: var(--text-secondary);
+            font-size: 0.95rem;
+            margin-bottom: 1rem;
+            line-height: 1.5;
+        }
+        
+        .article-meta {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding-top: 1rem;
+            border-top: 1px solid var(--border-color);
+        }
+        
+        .read-time {
+            color: var(--neon-pink);
+            font-size: 0.85rem;
+            font-weight: 600;
+        }
+        
+        /* Футер */
+        .footer {
+            background: var(--darker-bg);
+            padding: 3rem 0;
+            border-top: 1px solid var(--border-color);
+        }
+        
+        .footer-links {
+            list-style: none;
+            padding: 0;
+            margin: 1.5rem 0;
+        }
+        
+        .footer-links li {
+            margin-bottom: 0.5rem;
+        }
+        
+        .footer-links a {
+            color: var(--text-secondary);
+            text-decoration: none;
+            transition: color 0.3s ease;
+        }
+        
+        .footer-links a:hover {
+            color: var(--neon-green);
+        }
+        
+        .copyright {
+            color: var(--text-secondary);
+            font-size: 0.9rem;
+            text-align: center;
+            margin-top: 2rem;
+            padding-top: 2rem;
+            border-top: 1px solid var(--border-color);
+        }
+        
+        /* Адаптивность */
+        @media (max-width: 768px) {
+            .hero-title {
+                font-size: 2.5rem;
+            }
+            
+            .hero-subtitle {
+                font-size: 1.1rem;
+            }
+            
+            .cta-buttons {
+                flex-direction: column;
+            }
+            
+            .course-title {
+                font-size: 1.8rem;
+            }
+            
+            .section-title {
+                font-size: 2rem;
+            }
+        }
+    </style>
 </head>
 <body>
-  <div class="container">
-    <h1>Оплатить выпуск #1</h1>
-    <p>Введите email — после оплаты PDF придет сюда</p>
-
-    <form target="_blank" class="yoomoney-payment-form" 
-          action="https://yookassa.ru/integration/simplepay/payment" 
-          method="post" accept-charset="utf-8">
-
-      <!-- Информация о товаре -->
-      <div class="ym-products ym-display-none">
-        <div class="ym-product">
-          <input disabled type="hidden" name="text" value="Выпуск #1: Освойте ChatGPT за 7 дней">
-          <input disabled type="hidden" name="price" value="1000">
-          <input disabled type="hidden" name="quantity" value="1">
-          <input disabled type="hidden" name="paymentSubjectType" value="commodity">
-          <input disabled type="hidden" name="paymentMethodType" value="full_prepayment">
-          <input disabled type="hidden" name="tax" value="1">
+    <!-- Навигация -->
+    <nav class="navbar">
+        <div class="container">
+            <div class="d-flex justify-content-between align-items-center">
+                <a href="index.html" class="nav-brand">
+                    <span class="pulse"></span>
+                    <span>NeuroSprint</span>
+                </a>
+                
+                <div class="d-flex gap-3">
+                    <a href="course.html" class="btn-secondary">Курс</a>
+                    <a href="blog.html" class="btn-secondary">Блог</a>
+                </div>
+            </div>
         </div>
-      </div>
+    </nav>
 
-      <!-- Email покупателя (обязательно!) -->
-      <div class="ym-customer-info">
-        <input class="ym-input" name="email" placeholder="your@email.com" type="email" required>
-      </div>
+    <!-- Герой секция -->
+    <section class="hero">
+        <div class="container">
+            <div class="hero-content">
+                <h1 class="hero-title">
+                    ИИ без <span class="gradient-text">истерик</span>
+                </h1>
+                
+                <p class="hero-subtitle">
+                    NeuroSprint — место, где технологии говорят человеческим языком. 
+                    Без пафоса, без обещаний "прокачаться за день". Только практика, 
+                    которая работает.
+                </p>
+                
+                <div class="cta-buttons">
+                    <a href="course.html" class="btn-primary">
+                        <i class="fas fa-rocket me-2"></i>Начать с курса
+                    </a>
+                    <a href="blog.html" class="btn-secondary">
+                        <i class="fas fa-newspaper me-2"></i>Читать блог
+                    </a>
+                </div>
+            </div>
+        </div>
+    </section>
 
-      <!-- URL после успешной оплаты -->
-      <div class="ym-hidden-inputs">
-        <input name="shopSuccessURL" type="hidden" value="http://neuro-sprint.tilda.ws/thank-you">
-      </div>
+    <!-- Секция курса -->
+    <section class="course-section">
+        <div class="container">
+            <div class="row justify-content-center">
+                <div class="col-lg-8">
+                    <div class="course-card">
+                        <span class="course-badge">🔥 Только практика</span>
+                        <h2 class="course-title">Освойте ChatGPT за 7 дней</h2>
+                        
+                        <p style="color: var(--text-secondary); margin-bottom: 1.5rem;">
+                            Не курс, а рабочий план. 7 дней, 7 направлений, 7 результатов. 
+                            Без теории и воды — только то, что работает в реальной жизни.
+                        </p>
+                        
+                        <div class="features-grid">
+                            <div class="feature-item">
+                                <div class="feature-icon">
+                                    <i class="fas fa-comment-dots"></i>
+                                </div>
+                                <div>
+                                    <h4 style="color: white; font-size: 1.1rem;">Правильные промпты</h4>
+                                    <p class="feature-text">Говорите с ИИ так, чтобы он понимал</p>
+                                </div>
+                            </div>
+                            
+                            <div class="feature-item">
+                                <div class="feature-icon">
+                                    <i class="fas fa-briefcase"></i>
+                                </div>
+                                <div>
+                                    <h4 style="color: white; font-size: 1.1rem;">Бизнес-автоматизация</h4>
+                                    <p class="feature-text">Чат-боты, рассылки, поддержка клиентов</p>
+                                </div>
+                            </div>
+                            
+                            <div class="feature-item">
+                                <div class="feature-icon">
+                                    <i class="fas fa-paint-brush"></i>
+                                </div>
+                                <div>
+                                    <h4 style="color: white; font-size: 1.1rem;">Контент без выгорания</h4>
+                                    <p class="feature-text">Соцсети, тексты, презентации</p>
+                                </div>
+                            </div>
+                            
+                            <div class="feature-item">
+                                <div class="feature-icon">
+                                    <i class="fas fa-brain"></i>
+                                </div>
+                                <div>
+                                    <h4 style="color: white; font-size: 1.1rem;">Саморазвитие с ИИ</h4>
+                                    <p class="feature-text">Языки, цели, привычки</p>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="course-price">
+                            1000 ₽ <small>или бесплатно первым 50</small>
+                        </div>
+                        
+                        <div class="cta-buttons">
+                            <a href="course.html" class="btn-primary">
+                                <i class="fas fa-book-open me-2"></i>Подробнее о курсе
+                            </a>
+                            <a href="payment.html" class="btn-secondary">
+                                <i class="fas fa-bolt me-2"></i>Купить сейчас
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
 
-      <!-- Кнопка оплаты -->
-      <div class="ym-payment-btn-block">
-        <button data-text="Заплатить" class="ym-btn-pay ym-result-price">
-          <span class="ym-text-crop">Заплатить</span>
-          <span class="ym-price-output">1 000,00 ₽</span>
-        </button>
-        <img src="https://yookassa.ru/integration/simplepay/img/iokassa-gray.svg?v=1.30.0" class="ym-logo" width="114" height="27" alt="ЮKassa">
-      </div>
+    <!-- Секция блога -->
+    <section class="blog-section">
+        <div class="container">
+            <h2 class="section-title">Из блога NeuroSprint</h2>
+            
+            <div class="articles-grid">
+                <!-- Статья 1 -->
+                <a href="article1.html" class="article-card">
+                    <div class="article-image">
+                        <i class="fas fa-robot"></i>
+                    </div>
+                    <div class="article-content">
+                        <h3 class="article-title">Технологии будущего: когда ИИ решит, что мы ему не нужны</h3>
+                        <p class="article-excerpt">
+                            Нейроинтерфейсы, квантовые вычисления и ИИ-агенты. 
+                            Что нас ждёт и почему стоит держать кнопку "Выкл" под рукой.
+                        </p>
+                        <div class="article-meta">
+                            <span class="read-time">📖 5 мин</span>
+                        </div>
+                    </div>
+                </a>
+                
+                <!-- Статья 2 -->
+                <a href="article2.html" class="article-card">
+                    <div class="article-image">
+                        <i class="fas fa-history"></i>
+                    </div>
+                    <div class="article-content">
+                        <h3 class="article-title">История нейросетей: от "не может" до "сам всё сделал"</h3>
+                        <p class="article-excerpt">
+                            Как мы прошли путь от простых нейронов до ChatGPT. 
+                            Спойлер: в 1969 году калькулятор был умнее нейросетей.
+                        </p>
+                        <div class="article-meta">
+                            <span class="read-time">📖 6 мин</span>
+                        </div>
+                    </div>
+                </a>
+                
+                <!-- Статья 3 -->
+                <a href="article3.html" class="article-card">
+                    <div class="article-image">
+                        <i class="fas fa-heart-broken"></i>
+                    </div>
+                    <div class="article-content">
+                        <h3 class="article-title">Как ИИ испортил моё свидание</h3>
+                        <p class="article-excerpt">
+                            5 неловких ситуаций, когда не стоит доверять нейросетям 
+                            личную жизнь. Особенно признания в любви.
+                        </p>
+                        <div class="article-meta">
+                            <span class="read-time">📖 4 мин</span>
+                        </div>
+                    </div>
+                </a>
+            </div>
+        </div>
+    </section>
 
-      <!-- Обязательные скрытые поля -->
-      <input name="shopId" type="hidden" value="1178969">
-      <input name="sum" type="hidden" value="1000">
-      <input name="customerNumber" type="hidden" value="chatgpt-7days">
-    </form>
-  </div>
+    <!-- Футер -->
+    <footer class="footer">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-4 mb-4">
+                    <a href="index.html" class="nav-brand">
+                        <span class="pulse"></span>
+                        <span>NeuroSprint</span>
+                    </a>
+                    <p style="color: var(--text-secondary); margin-top: 1rem; font-size: 0.95rem;">
+                        ИИ без истерик. Только практика, которая работает.
+                    </p>
+                </div>
+                
+                <div class="col-lg-4 mb-4">
+                    <h4 style="color: white; margin-bottom: 1.5rem; font-size: 1.1rem;">Навигация</h4>
+                    <ul class="footer-links">
+                        <li><a href="index.html">Главная</a></li>
+                        <li><a href="course.html">Курс</a></li>
+                        <li><a href="blog.html">Блог</a></li>
+                        <li><a href="payment.html">Купить курс</a></li>
+                    </ul>
+                </div>
+                
+                <div class="col-lg-4 mb-4">
+                    <h4 style="color: white; margin-bottom: 1.5rem; font-size: 1.1rem;">Документы</h4>
+                    <ul class="footer-links">
+                        <li><a href="policy.html">Политика конфиденциальности</a></li>
+                        <li><a href="terms.html">Пользовательское соглашение</a></li>
+                    </ul>
+                </div>
+            </div>
+            
+            <div class="copyright">
+                &copy; 2024 NeuroSprint. ИИ ещё не научился делать такие сайты.
+            </div>
+        </div>
+    </footer>
 
-  <!-- Подключаем скрипт ЮKassa -->
-  <script src="https://yookassa.ru/integration/simplepay/js/yookassa_construct_form.js?v=1.30.0"></script>
+    <!-- Скрипты -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    
+    <script>
+        // Анимация пульсирующей точки
+        document.addEventListener('DOMContentLoaded', function() {
+            const pulse = document.querySelector('.pulse');
+            if (pulse) {
+                setInterval(() => {
+                    pulse.style.animation = 'none';
+                    setTimeout(() => {
+                        pulse.style.animation = 'pulse 2s infinite';
+                    }, 10);
+                }, 4000);
+            }
+            
+            // Параллакс для героя
+            window.addEventListener('scroll', function() {
+                const scrolled = window.pageYOffset;
+                const hero = document.querySelector('.hero');
+                if (hero) {
+                    hero.style.backgroundPositionY = scrolled * 0.5 + 'px';
+                }
+            });
+        });
+    </script>
 </body>
 </html>
