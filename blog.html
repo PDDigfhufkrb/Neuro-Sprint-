@@ -1,0 +1,437 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Блог • mrgpt — ИИ без пафоса</title>
+    
+    <!-- Стили -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+    
+    <style>
+        :root {
+            --neon-green: #00ff88;
+            --neon-pink: #ff0088;
+            --neon-blue: #0088ff;
+            --dark-bg: #0a0a12;
+            --card-bg: #11111a;
+            --border-color: #222233;
+            --text-primary: #ffffff;
+            --text-secondary: #b0b0d0;
+        }
+        
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: var(--dark-bg);
+            color: var(--text-primary);
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+        
+        /* Навигация */
+        .navbar {
+            background: rgba(10, 10, 18, 0.95);
+            border-bottom: 1px solid var(--border-color);
+            padding: 1.2rem 0;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+        }
+        
+        .logo {
+            font-family: 'Orbitron', monospace;
+            font-weight: 700;
+            font-size: 1.5rem;
+            color: var(--neon-green);
+            text-decoration: none;
+        }
+        
+        .nav-link {
+            color: var(--text-secondary);
+            text-decoration: none;
+            padding: 0.5rem 1rem;
+            transition: color 0.3s ease;
+        }
+        
+        .nav-link:hover {
+            color: var(--neon-green);
+        }
+        
+        /* Заголовок блога */
+        .blog-header {
+            padding: 4rem 0 2rem;
+            border-bottom: 1px solid var(--border-color);
+            margin-bottom: 3rem;
+        }
+        
+        .blog-title {
+            font-family: 'Orbitron', monospace;
+            font-size: 2.5rem;
+            font-weight: 700;
+            margin-bottom: 1rem;
+        }
+        
+        .blog-description {
+            color: var(--text-secondary);
+            font-size: 1.1rem;
+            max-width: 600px;
+        }
+        
+        /* Карточки статей */
+        .article-card {
+            background: var(--card-bg);
+            border-radius: 10px;
+            overflow: hidden;
+            border: 1px solid var(--border-color);
+            transition: transform 0.3s ease, border-color 0.3s ease;
+            height: 100%;
+            margin-bottom: 2rem;
+        }
+        
+        .article-card:hover {
+            transform: translateY(-5px);
+            border-color: var(--neon-green);
+        }
+        
+        .article-image {
+            height: 200px;
+            width: 100%;
+            object-fit: cover;
+        }
+        
+        .article-content {
+            padding: 1.5rem;
+        }
+        
+        .article-category {
+            display: inline-block;
+            background: rgba(0, 255, 136, 0.1);
+            color: var(--neon-green);
+            padding: 0.3rem 0.8rem;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: 600;
+            margin-bottom: 0.8rem;
+        }
+        
+        .article-title {
+            font-size: 1.4rem;
+            font-weight: 600;
+            margin-bottom: 0.8rem;
+            color: var(--text-primary);
+            line-height: 1.3;
+        }
+        
+        .article-excerpt {
+            color: var(--text-secondary);
+            font-size: 0.95rem;
+            line-height: 1.5;
+            margin-bottom: 1rem;
+        }
+        
+        .article-meta {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding-top: 1rem;
+            border-top: 1px solid var(--border-color);
+        }
+        
+        .read-time {
+            color: var(--text-secondary);
+            font-size: 0.85rem;
+        }
+        
+        .read-more {
+            color: var(--neon-green);
+            text-decoration: none;
+            font-size: 0.9rem;
+            font-weight: 500;
+        }
+        
+        .read-more:hover {
+            text-decoration: underline;
+        }
+        
+        /* Пагинация */
+        .pagination {
+            margin-top: 3rem;
+            padding-top: 2rem;
+            border-top: 1px solid var(--border-color);
+        }
+        
+        .page-link {
+            background: var(--card-bg);
+            border: 1px solid var(--border-color);
+            color: var(--text-secondary);
+            padding: 0.5rem 1rem;
+            border-radius: 5px;
+            text-decoration: none;
+            transition: all 0.3s ease;
+        }
+        
+        .page-link:hover {
+            border-color: var(--neon-green);
+            color: var(--neon-green);
+        }
+        
+        .page-link.active {
+            background: var(--neon-green);
+            border-color: var(--neon-green);
+            color: black;
+        }
+        
+        /* Футер */
+        .footer {
+            background: var(--card-bg);
+            padding: 3rem 0 2rem;
+            margin-top: 4rem;
+        }
+        
+        .footer-links {
+            list-style: none;
+            padding: 0;
+            margin: 1rem 0;
+        }
+        
+        .footer-links li {
+            margin-bottom: 0.5rem;
+        }
+        
+        .footer-links a {
+            color: var(--text-secondary);
+            text-decoration: none;
+            font-size: 0.9rem;
+        }
+        
+        .footer-links a:hover {
+            color: var(--neon-green);
+        }
+        
+        .copyright {
+            color: var(--text-secondary);
+            font-size: 0.85rem;
+            text-align: center;
+            margin-top: 2rem;
+            padding-top: 2rem;
+            border-top: 1px solid var(--border-color);
+        }
+        
+        /* Мобильная версия */
+        @media (max-width: 768px) {
+            .blog-title {
+                font-size: 2rem;
+            }
+            
+            .article-image {
+                height: 180px;
+            }
+            
+            .article-title {
+                font-size: 1.2rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Навигация -->
+    <nav class="navbar">
+        <div class="container">
+            <div class="d-flex justify-content-between align-items-center">
+                <a href="index.html" class="logo">mrgpt</a>
+                
+                <div class="d-flex gap-3">
+                    <a href="blog.html" class="nav-link" style="color: var(--neon-green);">Блог</a>
+                    <a href="project.html" class="nav-link">Курс</a>
+                    <a href="about.html" class="nav-link">О нас</a>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Заголовок блога -->
+    <section class="blog-header">
+        <div class="container">
+            <h1 class="blog-title">Блог mrgpt</h1>
+            <p class="blog-description">
+                Истории о технологиях без пафоса. Нейросети, ИИ, будущее — 
+                простыми словами и с долей самоиронии.
+            </p>
+        </div>
+    </section>
+
+    <!-- Статьи -->
+    <section class="blog-content">
+        <div class="container">
+            <div class="row">
+                <!-- Основная статья -->
+                <div class="col-lg-8">
+                    <article class="article-card">
+                        <img src="https://s5.iimage.su/s/16/gvH9szfxZG175DP1dwFkPz0uBi8deWjwONXp6ZuV.jpg" 
+                             alt="Технологии будущего" 
+                             class="article-image">
+                        <div class="article-content">
+                            <span class="article-category">Технологии</span>
+                            <h2 class="article-title">Технологии будущего: когда ИИ решит, что мы ему не нужны</h2>
+                            <p class="article-excerpt">
+                                Нейроинтерфейсы, квантовые вычисления и ИИ-агенты — всё это уже не фантастика. 
+                                Но что будет, когда машины начнут принимать решения без нас? В этой статье 
+                                разбираем самые перспективные технологии и почему стоит держать кнопку "Выкл" под рукой.
+                            </p>
+                            <div class="article-meta">
+                                <span class="read-time">📖 5 минут чтения</span>
+                                <a href="article1.html" class="read-more">Читать полностью →</a>
+                            </div>
+                        </div>
+                    </article>
+                    
+                    <article class="article-card">
+                        <img src="https://s5.iimage.su/s/16/g6reaT3xZuUqwCf6zPDrvlsUrdidtUcJDwHEHXXk.png" 
+                             alt="История нейросетей" 
+                             class="article-image">
+                        <div class="article-content">
+                            <span class="article-category">История</span>
+                            <h2 class="article-title">История нейросетей: от "не может" до "сам всё сделал"</h2>
+                            <p class="article-excerpt">
+                                Как мы прошли путь от простых математических моделей нейронов до ChatGPT, 
+                                который пишет за нас письма, код и даже стихи. История взлётов, падений и 
+                                "зим ИИ", которые привели нас к сегодняшнему дню.
+                            </p>
+                            <div class="article-meta">
+                                <span class="read-time">📖 6 минут чтения</span>
+                                <a href="article2.html" class="read-more">Читать полностью →</a>
+                            </div>
+                        </div>
+                    </article>
+                    
+                    <article class="article-card">
+                        <img src="https://s5.iimage.su/s/16/gopW04jxSYXmai0e28d5Cbd06lBYlHeuE6eKeXoA.jpg" 
+                             alt="Как ИИ испортил моё свидание" 
+                             class="article-image">
+                        <div class="article-content">
+                            <span class="article-category">Юмор</span>
+                            <h2 class="article-title">Как ИИ испортил моё свидание</h2>
+                            <p class="article-excerpt">
+                                5 неловких ситуаций, которые заставят вас задуматься, стоит ли доверять 
+                                нейросетям личную жизнь. От романтических сообщений до выбора подарков — 
+                                иногда технологии слишком стараются помочь.
+                            </p>
+                            <div class="article-meta">
+                                <span class="read-time">📖 4 минуты чтения</span>
+                                <a href="article3.html" class="read-more">Читать полностью →</a>
+                            </div>
+                        </div>
+                    </article>
+                    
+                    <!-- Ещё статьи -->
+                    <article class="article-card">
+                        <div class="article-content">
+                            <span class="article-category">Аналитика</span>
+                            <h2 class="article-title">ChatGPT против Google: кто кого?</h2>
+                            <p class="article-excerpt">
+                                Сравниваем классический поиск и чат-боты. Когда лучше использовать 
+                                ChatGPT, а когда — старый добрый Google. Плюсы, минусы и немного 
+                                предсказаний о будущем поиска информации.
+                            </p>
+                            <div class="article-meta">
+                                <span class="read-time">📖 7 минут чтения</span>
+                                <a href="#" class="read-more">Скоро →</a>
+                            </div>
+                        </div>
+                    </article>
+                    
+                    <article class="article-card">
+                        <div class="article-content">
+                            <span class="article-category">Практика</span>
+                            <h2 class="article-title">10 промптов, которые сэкономят вам 10 часов в неделю</h2>
+                            <p class="article-excerpt">
+                                Конкретные примеры промптов для работы, учёбы и личных проектов. 
+                                Просто скопируйте, вставьте в ChatGPT и получите результат.
+                            </p>
+                            <div class="article-meta">
+                                <span class="read-time">📖 8 минут чтения</span>
+                                <a href="#" class="read-more">Скоро →</a>
+                            </div>
+                        </div>
+                    </article>
+                </div>
+                
+                <!-- Сайдбар -->
+                <div class="col-lg-4">
+                    <div style="background: var(--card-bg); border-radius: 10px; padding: 1.5rem; border: 1px solid var(--border-color); margin-bottom: 2rem;">
+                        <h3 style="font-size: 1.2rem; margin-bottom: 1rem; color: var(--neon-green);">О блоге</h3>
+                        <p style="color: var(--text-secondary); font-size: 0.95rem; line-height: 1.5;">
+                            mrgpt — это место, где технологии говорят человеческим языком. 
+                            Без сложных терминов, без пафоса. Только интересные истории и 
+                            практические советы.
+                        </p>
+                    </div>
+                    
+                    <div style="background: var(--card-bg); border-radius: 10px; padding: 1.5rem; border: 1px solid var(--border-color);">
+                        <h3 style="font-size: 1.2rem; margin-bottom: 1rem; color: var(--neon-green);">Категории</h3>
+                        <div style="display: flex; flex-wrap: wrap; gap: 0.5rem;">
+                            <span style="background: rgba(0, 255, 136, 0.1); color: var(--neon-green); padding: 0.3rem 0.8rem; border-radius: 20px; font-size: 0.85rem;">Технологии</span>
+                            <span style="background: rgba(255, 0, 136, 0.1); color: var(--neon-pink); padding: 0.3rem 0.8rem; border-radius: 20px; font-size: 0.85rem;">История</span>
+                            <span style="background: rgba(0, 136, 255, 0.1); color: var(--neon-blue); padding: 0.3rem 0.8rem; border-radius: 20px; font-size: 0.85rem;">Юмор</span>
+                            <span style="background: rgba(255, 255, 255, 0.1); color: var(--text-secondary); padding: 0.3rem 0.8rem; border-radius: 20px; font-size: 0.85rem;">Аналитика</span>
+                            <span style="background: rgba(255, 255, 255, 0.1); color: var(--text-secondary); padding: 0.3rem 0.8rem; border-radius: 20px; font-size: 0.85rem;">Практика</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Пагинация -->
+            <div class="pagination">
+                <div class="d-flex justify-content-center gap-2">
+                    <a href="#" class="page-link active">1</a>
+                    <a href="#" class="page-link">2</a>
+                    <a href="#" class="page-link">3</a>
+                    <a href="#" class="page-link">→</a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Футер -->
+    <footer class="footer">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-4 mb-4">
+                    <a href="index.html" class="logo">mrgpt</a>
+                    <p style="color: var(--text-secondary); margin-top: 1rem; font-size: 0.9rem;">
+                        Простые истории о технологиях будущего.
+                    </p>
+                </div>
+                
+                <div class="col-lg-4 mb-4">
+                    <h4 style="color: white; margin-bottom: 1rem; font-size: 1rem;">Навигация</h4>
+                    <ul class="footer-links">
+                        <li><a href="index.html">Главная</a></li>
+                        <li><a href="blog.html">Блог</a></li>
+                        <li><a href="project.html">Курс</a></li>
+                        <li><a href="about.html">О нас</a></li>
+                    </ul>
+                </div>
+                
+                <div class="col-lg-4 mb-4">
+                    <h4 style="color: white; margin-bottom: 1rem; font-size: 1rem;">Контакты</h4>
+                    <ul class="footer-links">
+                        <li><a href="mailto:neurosprint.team@gmail.com">neurosprint.team@gmail.com</a></li>
+                        <li><a href="policy.html">Политика</a></li>
+                        <li><a href="terms.html">Условия</a></li>
+                    </ul>
+                </div>
+            </div>
+            
+            <div class="copyright">
+                mrgpt © 2024 • ИИ ещё не умеет делать такие сайты. К счастью.
+            </div>
+        </div>
+    </footer>
+
+    <!-- Скрипты -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
