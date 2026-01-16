@@ -8,42 +8,55 @@
     <!-- Стили -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600&family=Inter:wght@300;400;500&display=swap" rel="stylesheet">
     
     <style>
         :root {
             --neon-green: #00ff88;
             --neon-pink: #ff0088;
             --neon-blue: #0088ff;
-            --dark-bg: #0a0a12;
-            --card-bg: #11111a;
-            --border-color: #222233;
+            --dark-bg: #0a0a0a;
+            --card-bg: #111111;
+            --border-color: #222222;
             --text-primary: #ffffff;
-            --text-secondary: #b0b0d0;
+            --text-secondary: #a0a0a0;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
         }
         
         body {
             font-family: 'Inter', sans-serif;
             background-color: var(--dark-bg);
             color: var(--text-primary);
-            line-height: 1.6;
+            line-height: 1.5;
             overflow-x: hidden;
+            min-height: 100vh;
+        }
+        
+        .mono {
+            font-family: 'JetBrains Mono', monospace;
         }
         
         /* Навигация */
         .navbar {
-            background: rgba(10, 10, 18, 0.95);
-            border-bottom: 1px solid var(--border-color);
-            padding: 1.2rem 0;
-            position: sticky;
+            background: rgba(10, 10, 10, 0.9);
+            padding: 1rem 0;
+            position: fixed;
             top: 0;
+            left: 0;
+            right: 0;
             z-index: 1000;
+            backdrop-filter: blur(5px);
         }
         
         .logo {
-            font-family: 'Orbitron', monospace;
-            font-weight: 700;
-            font-size: 1.5rem;
+            font-family: 'JetBrains Mono', monospace;
+            font-weight: 600;
+            font-size: 1.2rem;
             color: var(--neon-green);
             text-decoration: none;
         }
@@ -52,7 +65,8 @@
             color: var(--text-secondary);
             text-decoration: none;
             padding: 0.5rem 1rem;
-            transition: color 0.3s ease;
+            font-size: 0.9rem;
+            transition: color 0.2s ease;
         }
         
         .nav-link:hover {
@@ -61,154 +75,65 @@
         
         /* Герой */
         .hero {
-            padding: 6rem 0 4rem;
+            padding-top: 5rem;
+            min-height: 100vh;
             position: relative;
+            display: flex;
+            align-items: center;
+        }
+        
+        .hero-background {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: 
+                linear-gradient(rgba(10, 10, 10, 0.85), rgba(10, 10, 10, 0.9)),
+                url('https://s5.iimage.su/s/16/g9PmMtjxw1Qr5GzRbAkvOyrXpfKe7DP8cgbVMfzm.jpg');
+            background-size: cover;
+            background-position: center;
+            z-index: -1;
+        }
+        
+        .hero-content {
+            position: relative;
+            z-index: 2;
+            padding: 2rem 0;
         }
         
         .hero-title {
-            font-family: 'Orbitron', monospace;
-            font-size: 2.8rem;
-            font-weight: 700;
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 2.5rem;
+            font-weight: 600;
             line-height: 1.2;
-            margin-bottom: 1.5rem;
+            margin-bottom: 1rem;
+            color: var(--text-primary);
         }
         
         .hero-subtitle {
-            font-size: 1.2rem;
+            font-size: 1rem;
             color: var(--text-secondary);
-            max-width: 700px;
+            max-width: 500px;
             margin-bottom: 2rem;
         }
         
-        /* Блог */
-        .blog-section {
-            padding: 4rem 0;
-        }
-        
-        .section-title {
-            font-family: 'Orbitron', monospace;
-            font-size: 2rem;
-            font-weight: 700;
-            margin-bottom: 2rem;
-            color: var(--text-primary);
-        }
-        
-        .article-card {
-            background: var(--card-bg);
-            border-radius: 10px;
-            overflow: hidden;
-            border: 1px solid var(--border-color);
-            transition: transform 0.3s ease;
-            height: 100%;
-        }
-        
-        .article-card:hover {
-            transform: translateY(-5px);
-            border-color: var(--neon-green);
-        }
-        
-        .article-image {
-            height: 180px;
-            width: 100%;
-            object-fit: cover;
-        }
-        
-        .article-content {
-            padding: 1.5rem;
-        }
-        
-        .article-title {
-            font-size: 1.3rem;
-            font-weight: 600;
-            margin-bottom: 0.8rem;
-            color: var(--text-primary);
-        }
-        
-        .article-excerpt {
-            color: var(--text-secondary);
-            font-size: 0.95rem;
-            line-height: 1.5;
-            margin-bottom: 1rem;
-        }
-        
-        .article-meta {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding-top: 1rem;
-            border-top: 1px solid var(--border-color);
-        }
-        
-        .read-more {
-            color: var(--neon-green);
+        /* Кнопки */
+        .btn {
+            display: inline-block;
+            padding: 0.8rem 1.5rem;
+            border-radius: 4px;
+            font-weight: 500;
             text-decoration: none;
             font-size: 0.9rem;
-        }
-        
-        /* Курс */
-        .course-section {
-            background: var(--card-bg);
-            padding: 3rem 0;
-            border-top: 1px solid var(--border-color);
-            border-bottom: 1px solid var(--border-color);
-        }
-        
-        .course-card {
-            background: linear-gradient(135deg, rgba(0, 255, 136, 0.05), rgba(0, 136, 255, 0.05));
-            border: 1px solid var(--neon-green);
-            border-radius: 10px;
-            padding: 2rem;
-            position: relative;
-        }
-        
-        .course-title {
-            font-family: 'Orbitron', monospace;
-            font-size: 1.5rem;
-            font-weight: 700;
-            margin-bottom: 1rem;
-            color: var(--neon-green);
-        }
-        
-        .course-price {
-            font-size: 2rem;
-            font-weight: 700;
-            color: var(--neon-green);
-            margin: 1.5rem 0;
-        }
-        
-        .features-grid {
-            display: grid;
-            grid-template-columns: repeat(2, 1fr);
-            gap: 1rem;
-            margin: 1.5rem 0;
-        }
-        
-        .feature-item {
-            display: flex;
-            align-items: flex-start;
-            gap: 0.5rem;
-        }
-        
-        .feature-icon {
-            color: var(--neon-blue);
-            margin-top: 0.2rem;
-        }
-        
-        .feature-text {
-            color: var(--text-secondary);
-            font-size: 0.9rem;
+            transition: all 0.2s ease;
+            border: none;
+            cursor: pointer;
         }
         
         .btn-primary {
             background: var(--neon-green);
             color: black;
-            border: none;
-            padding: 0.8rem 1.5rem;
-            border-radius: 5px;
-            font-weight: 600;
-            text-decoration: none;
-            display: inline-block;
-            transition: opacity 0.3s ease;
         }
         
         .btn-primary:hover {
@@ -220,12 +145,6 @@
             background: transparent;
             color: var(--neon-green);
             border: 1px solid var(--neon-green);
-            padding: 0.8rem 1.5rem;
-            border-radius: 5px;
-            font-weight: 600;
-            text-decoration: none;
-            display: inline-block;
-            transition: background 0.3s ease;
         }
         
         .btn-secondary:hover {
@@ -233,26 +152,145 @@
             color: var(--neon-green);
         }
         
+        /* Разделы */
+        .section {
+            padding: 4rem 0;
+            border-top: 1px solid var(--border-color);
+        }
+        
+        .section-title {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 1.5rem;
+            font-weight: 600;
+            margin-bottom: 2rem;
+            color: var(--text-primary);
+        }
+        
+        /* Блог */
+        .articles-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 1.5rem;
+        }
+        
+        .article-card {
+            background: var(--card-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 6px;
+            overflow: hidden;
+            transition: border-color 0.2s ease;
+        }
+        
+        .article-card:hover {
+            border-color: var(--neon-green);
+        }
+        
+        .article-image {
+            height: 160px;
+            width: 100%;
+            object-fit: cover;
+        }
+        
+        .article-content {
+            padding: 1.5rem;
+        }
+        
+        .article-title {
+            font-size: 1.1rem;
+            font-weight: 500;
+            margin-bottom: 0.5rem;
+            color: var(--text-primary);
+        }
+        
+        .article-excerpt {
+            color: var(--text-secondary);
+            font-size: 0.9rem;
+            margin-bottom: 1rem;
+            line-height: 1.4;
+        }
+        
+        .article-link {
+            color: var(--neon-green);
+            text-decoration: none;
+            font-size: 0.85rem;
+        }
+        
+        /* Курс */
+        .course-card {
+            background: var(--card-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 6px;
+            padding: 2rem;
+        }
+        
+        .course-header {
+            margin-bottom: 1.5rem;
+        }
+        
+        .course-title {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 1.3rem;
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+            color: var(--neon-green);
+        }
+        
+        .course-price {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 1.8rem;
+            font-weight: 600;
+            color: var(--neon-green);
+            margin: 1rem 0;
+        }
+        
+        .features {
+            margin: 1.5rem 0;
+        }
+        
+        .feature {
+            display: flex;
+            align-items: flex-start;
+            gap: 0.8rem;
+            margin-bottom: 0.8rem;
+        }
+        
+        .feature-icon {
+            color: var(--neon-green);
+            font-size: 0.9rem;
+            margin-top: 0.2rem;
+        }
+        
+        .feature-text {
+            color: var(--text-secondary);
+            font-size: 0.9rem;
+        }
+        
         /* Футер */
         .footer {
             background: var(--card-bg);
             padding: 3rem 0 2rem;
+            border-top: 1px solid var(--border-color);
+        }
+        
+        .footer-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 2rem;
         }
         
         .footer-links {
             list-style: none;
             padding: 0;
-            margin: 1rem 0;
-        }
-        
-        .footer-links li {
-            margin-bottom: 0.5rem;
+            margin: 0;
+            display: flex;
+            gap: 1.5rem;
         }
         
         .footer-links a {
             color: var(--text-secondary);
             text-decoration: none;
-            font-size: 0.9rem;
+            font-size: 0.85rem;
         }
         
         .footer-links a:hover {
@@ -261,41 +299,45 @@
         
         .copyright {
             color: var(--text-secondary);
-            font-size: 0.85rem;
+            font-size: 0.8rem;
             text-align: center;
-            margin-top: 2rem;
             padding-top: 2rem;
             border-top: 1px solid var(--border-color);
         }
         
-        /* Мобильная версия */
+        /* Адаптивность */
         @media (max-width: 768px) {
             .hero-title {
                 font-size: 2rem;
             }
             
-            .hero-subtitle {
-                font-size: 1rem;
-            }
-            
-            .section-title {
-                font-size: 1.5rem;
-            }
-            
-            .features-grid {
+            .articles-grid {
                 grid-template-columns: 1fr;
             }
             
-            .article-image {
-                height: 150px;
+            .footer-content {
+                flex-direction: column;
+                gap: 1rem;
+                text-align: center;
             }
             
-            .btn-primary,
-            .btn-secondary {
-                display: block;
-                width: 100%;
-                text-align: center;
-                margin-bottom: 0.5rem;
+            .footer-links {
+                flex-wrap: wrap;
+                justify-content: center;
+            }
+        }
+        
+        @media (max-width: 480px) {
+            .hero {
+                padding-top: 4rem;
+            }
+            
+            .hero-title {
+                font-size: 1.8rem;
+            }
+            
+            .section {
+                padding: 3rem 0;
             }
         }
     </style>
@@ -307,7 +349,7 @@
             <div class="d-flex justify-content-between align-items-center">
                 <a href="index.html" class="logo">mrgpt</a>
                 
-                <div class="d-flex gap-3">
+                <div class="d-flex gap-2">
                     <a href="blog.html" class="nav-link">Блог</a>
                     <a href="project.html" class="nav-link">Курс</a>
                     <a href="about.html" class="nav-link">О нас</a>
@@ -318,157 +360,126 @@
 
     <!-- Герой -->
     <section class="hero">
+        <div class="hero-background"></div>
+        
         <div class="container">
-            <div class="row align-items-center">
-                <div class="col-lg-6">
-                    <h1 class="hero-title">ИИ без пафоса</h1>
-                    <p class="hero-subtitle">
-                        Простые истории о технологиях будущего. Без теории, 
-                        без обещаний "прокачаться". Только то, что интересно.
-                    </p>
-                    <a href="blog.html" class="btn-primary">Читать блог</a>
-                </div>
-                <div class="col-lg-6">
-                    <img src="https://s5.iimage.su/s/16/gTwDduMxPMz3Mb5wywA6IBrpXlfMCObQCRfPIet7.jpg" 
-                         alt="Киберпанк город" 
-                         style="width: 100%; border-radius: 10px; border: 1px solid var(--border-color);">
+            <div class="hero-content">
+                <h1 class="hero-title">mrgpt</h1>
+                <p class="hero-subtitle">
+                    Технологии без пафоса. Простые истории о том, как ИИ меняет нашу жизнь.
+                </p>
+                
+                <div class="d-flex gap-3">
+                    <a href="blog.html" class="btn btn-primary">Читать блог</a>
+                    <a href="project.html" class="btn btn-secondary">О курсе</a>
                 </div>
             </div>
         </div>
     </section>
 
     <!-- Блог -->
-    <section class="blog-section">
+    <section class="section">
         <div class="container">
-            <h2 class="section-title">Последние статьи</h2>
+            <h2 class="section-title">Последнее в блоге</h2>
             
-            <div class="row g-4">
+            <div class="articles-grid">
                 <!-- Статья 1 -->
-                <div class="col-md-4">
-                    <article class="article-card">
-                        <img src="https://s5.iimage.su/s/16/gvH9szfxZG175DP1dwFkPz0uBi8deWjwONXp6ZuV.jpg" 
-                             alt="Технологии будущего" 
-                             class="article-image">
-                        <div class="article-content">
-                            <h3 class="article-title">Технологии будущего: когда ИИ решит, что мы ему не нужны</h3>
-                            <p class="article-excerpt">
-                                Нейроинтерфейсы, квантовые вычисления и ИИ-агенты. 
-                                Что нас ждёт и почему стоит держать кнопку "Выкл" под рукой.
-                            </p>
-                            <div class="article-meta">
-                                <span style="color: var(--text-secondary); font-size: 0.85rem;">📖 5 мин</span>
-                                <a href="article1.html" class="read-more">Читать →</a>
-                            </div>
-                        </div>
-                    </article>
-                </div>
+                <article class="article-card">
+                    <img src="https://s5.iimage.su/s/16/gvH9szfxZG175DP1dwFkPz0uBi8deWjwONXp6ZuV.jpg" 
+                         alt="Технологии будущего" 
+                         class="article-image">
+                    <div class="article-content">
+                        <h3 class="article-title">Технологии будущего</h3>
+                        <p class="article-excerpt">
+                            Нейроинтерфейсы, квантовые вычисления и ИИ-агенты. Что нас ждёт.
+                        </p>
+                        <a href="article1.html" class="article-link">Читать →</a>
+                    </div>
+                </article>
                 
                 <!-- Статья 2 -->
-                <div class="col-md-4">
-                    <article class="article-card">
-                        <img src="https://s5.iimage.su/s/16/g6reaT3xZuUqwCf6zPDrvlsUrdidtUcJDwHEHXXk.png" 
-                             alt="История нейросетей" 
-                             class="article-image">
-                        <div class="article-content">
-                            <h3 class="article-title">История нейросетей: от "не может" до "сам всё сделал"</h3>
-                            <p class="article-excerpt">
-                                Как мы прошли путь от простых нейронов до ChatGPT. 
-                                И почему стоит помнить, где кнопка "Стоп".
-                            </p>
-                            <div class="article-meta">
-                                <span style="color: var(--text-secondary); font-size: 0.85rem;">📖 6 мин</span>
-                                <a href="article2.html" class="read-more">Читать →</a>
-                            </div>
-                        </div>
-                    </article>
-                </div>
+                <article class="article-card">
+                    <img src="https://s5.iimage.su/s/16/g6reaT3xZuUqwCf6zPDrvlsUrdidtUcJDwHEHXXk.png" 
+                         alt="История нейросетей" 
+                         class="article-image">
+                    <div class="article-content">
+                        <h3 class="article-title">История нейросетей</h3>
+                        <p class="article-excerpt">
+                            От простых нейронов до ChatGPT. Как мы к этому пришли.
+                        </p>
+                        <a href="article2.html" class="article-link">Читать →</a>
+                    </div>
+                </article>
                 
                 <!-- Статья 3 -->
-                <div class="col-md-4">
-                    <article class="article-card">
-                        <img src="https://s5.iimage.su/s/16/gopW04jxSYXmai0e28d5Cbd06lBYlHeuE6eKeXoA.jpg" 
-                             alt="Как ИИ испортил моё свидание" 
-                             class="article-image">
-                        <div class="article-content">
-                            <h3 class="article-title">Как ИИ испортил моё свидание</h3>
-                            <p class="article-excerpt">
-                                5 неловких ситуаций, когда не стоит доверять нейросетям 
-                                личную жизнь. Особенно признания в любви.
-                            </p>
-                            <div class="article-meta">
-                                <span style="color: var(--text-secondary); font-size: 0.85rem;">📖 4 мин</span>
-                                <a href="article3.html" class="read-more">Читать →</a>
-                            </div>
-                        </div>
-                    </article>
-                </div>
+                <article class="article-card">
+                    <img src="https://s5.iimage.su/s/16/gopW04jxSYXmai0e28d5Cbd06lBYlHeuE6eKeXoA.jpg" 
+                         alt="Как ИИ испортил моё свидание" 
+                         class="article-image">
+                    <div class="article-content">
+                        <h3 class="article-title">ИИ и личная жизнь</h3>
+                        <p class="article-excerpt">
+                            Когда технологии слишком стараются помочь.
+                        </p>
+                        <a href="article3.html" class="article-link">Читать →</a>
+                    </div>
+                </article>
             </div>
             
             <div class="text-center mt-4">
-                <a href="blog.html" class="btn-secondary">Все статьи →</a>
+                <a href="blog.html" class="btn btn-secondary">Все статьи →</a>
             </div>
         </div>
     </section>
 
     <!-- Курс -->
-    <section class="course-section">
+    <section class="section">
         <div class="container">
             <div class="row justify-content-center">
                 <div class="col-lg-8">
                     <div class="course-card">
-                        <h3 class="course-title">Освойте ChatGPT за 7 дней</h3>
-                        <p style="color: var(--text-secondary); margin-bottom: 1.5rem;">
-                            Не курс, а рабочий план. 7 дней, 7 направлений, 7 результатов. 
-                            Без теории и воды — только то, что работает в реальной жизни.
-                        </p>
+                        <div class="course-header">
+                            <h3 class="course-title">Освойте ChatGPT за 7 дней</h3>
+                            <p style="color: var(--text-secondary); font-size: 0.9rem;">
+                                Рабочий план, а не курс. 7 дней, 7 направлений, 7 результатов.
+                            </p>
+                        </div>
                         
-                        <div class="features-grid">
-                            <div class="feature-item">
+                        <div class="features">
+                            <div class="feature">
                                 <div class="feature-icon">
-                                    <i class="fas fa-comment-dots"></i>
+                                    <i class="fas fa-comment"></i>
                                 </div>
-                                <div>
-                                    <p class="feature-text">Правильные промпты</p>
-                                </div>
+                                <p class="feature-text">Правильные промпты</p>
                             </div>
                             
-                            <div class="feature-item">
+                            <div class="feature">
                                 <div class="feature-icon">
                                     <i class="fas fa-briefcase"></i>
                                 </div>
-                                <div>
-                                    <p class="feature-text">Бизнес-автоматизация</p>
-                                </div>
+                                <p class="feature-text">Бизнес-автоматизация</p>
                             </div>
                             
-                            <div class="feature-item">
+                            <div class="feature">
                                 <div class="feature-icon">
                                     <i class="fas fa-paint-brush"></i>
                                 </div>
-                                <div>
-                                    <p class="feature-text">Контент без выгорания</p>
-                                </div>
+                                <p class="feature-text">Создание контента</p>
                             </div>
                             
-                            <div class="feature-item">
+                            <div class="feature">
                                 <div class="feature-icon">
                                     <i class="fas fa-brain"></i>
                                 </div>
-                                <div>
-                                    <p class="feature-text">Саморазвитие с ИИ</p>
-                                </div>
+                                <p class="feature-text">Саморазвитие с ИИ</p>
                             </div>
                         </div>
                         
                         <div class="course-price">1000 ₽</div>
                         
                         <div class="d-flex gap-3">
-                            <a href="project.html" class="btn-primary">
-                                <i class="fas fa-book-open me-2"></i>Подробнее о курсе
-                            </a>
-                            <a href="payment.html" class="btn-secondary">
-                                <i class="fas fa-bolt me-2"></i>Купить сейчас
-                            </a>
+                            <a href="project.html" class="btn btn-primary">Подробнее</a>
+                            <a href="payment.html" class="btn btn-secondary">Купить</a>
                         </div>
                     </div>
                 </div>
@@ -479,41 +490,52 @@
     <!-- Футер -->
     <footer class="footer">
         <div class="container">
-            <div class="row">
-                <div class="col-lg-4 mb-4">
-                    <a href="index.html" class="logo">mrgpt</a>
-                    <p style="color: var(--text-secondary); margin-top: 1rem; font-size: 0.9rem;">
-                        Простые истории о технологиях будущего.
-                    </p>
-                </div>
+            <div class="footer-content">
+                <a href="index.html" class="logo">mrgpt</a>
                 
-                <div class="col-lg-4 mb-4">
-                    <h4 style="color: white; margin-bottom: 1rem; font-size: 1rem;">Навигация</h4>
-                    <ul class="footer-links">
-                        <li><a href="index.html">Главная</a></li>
-                        <li><a href="blog.html">Блог</a></li>
-                        <li><a href="project.html">Курс</a></li>
-                        <li><a href="about.html">О нас</a></li>
-                    </ul>
-                </div>
-                
-                <div class="col-lg-4 mb-4">
-                    <h4 style="color: white; margin-bottom: 1rem; font-size: 1rem;">Контакты</h4>
-                    <ul class="footer-links">
-                        <li><a href="mailto:neurosprint.team@gmail.com">neurosprint.team@gmail.com</a></li>
-                        <li><a href="policy.html">Политика</a></li>
-                        <li><a href="terms.html">Условия</a></li>
-                    </ul>
-                </div>
+                <ul class="footer-links">
+                    <li><a href="index.html">Главная</a></li>
+                    <li><a href="blog.html">Блог</a></li>
+                    <li><a href="project.html">Курс</a></li>
+                    <li><a href="about.html">О нас</a></li>
+                    <li><a href="policy.html">Политика</a></li>
+                </ul>
             </div>
             
             <div class="copyright">
-                mrgpt © 2026 Все права защищены.
+                mrgpt © 2024. Все права защищены.
             </div>
         </div>
     </footer>
 
     <!-- Скрипты -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    
+    <script>
+        // Плавное появление элементов при скролле
+        document.addEventListener('DOMContentLoaded', function() {
+            const observerOptions = {
+                threshold: 0.1,
+                rootMargin: '0px 0px -50px 0px'
+            };
+            
+            const observer = new IntersectionObserver(function(entries) {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.style.opacity = '1';
+                        entry.target.style.transform = 'translateY(0)';
+                    }
+                });
+            }, observerOptions);
+            
+            // Анимируем карточки
+            document.querySelectorAll('.article-card, .course-card').forEach(card => {
+                card.style.opacity = '0';
+                card.style.transform = 'translateY(20px)';
+                card.style.transition = 'opacity 0.3s ease, transform 0.3s ease';
+                observer.observe(card);
+            });
+        });
+    </script>
 </body>
 </html>
